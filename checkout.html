@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Eren Xiters</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #121212;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+    }
+    #loadingSpinner {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full px-6 py-8">
+  <main class="w-full max-w-6xl mx-auto space-y-12">
+
+    <!-- Header -->
+    <section class="text-center">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-yellow-400 mb-4">Choose Your Payment Method</h1>
+      <p class="text-gray-400 text-lg">Select a payment method below and complete your purchase</p>
+    </section>
+
+    <!-- Payment Options -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <button id="showBinanceBtn"
+        class="bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-gray-900 font-bold py-5 px-6 rounded-2xl shadow-lg text-xl">
+        Pay with Binance Pay
+      </button>
+      <button id="showBankFormBtn"
+        class="bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-gray-900 font-bold py-5 px-6 rounded-2xl shadow-lg text-xl">
+        Pay with Bank Transfer
+      </button>
+    </section>
+
+    <!-- Binance QR Section -->
+    <section id="binancePaySection" class="hidden space-y-6 border-t border-yellow-600 pt-8">
+      <h2 class="text-3xl font-bold text-yellow-400">Binance Pay</h2>
+      <p class="text-gray-300 text-md">
+        Scan the QR code below using your Binance App to pay <span class="font-bold dynamic-price text-yellow-400">$10</span>:
+      </p>
+      <div class="flex justify-center">
+        <img src="https://raw.githubusercontent.com/eren-6c/binanceiamge/main/Binance Qr Code.png"
+          alt="Binance Pay QR Code"
+          class="w-64 h-64 rounded-lg border-2 border-yellow-400 shadow-lg">
+      </div>
+      <p class="text-sm text-gray-400 text-center">
+        After scanning and paying, please upload the screenshot and enter your transaction ID below.
+      </p>
+    </section>
+
+    <!-- Bank Transfer Section -->
+    <section id="bankDetailsSection" class="hidden space-y-4 border-t border-yellow-600 pt-8 text-sm text-gray-300">
+      <h2 class="text-3xl font-bold text-yellow-400">Bank Transfer</h2>
+      <p>Send <span class="font-bold dynamic-price text-yellow-400">$10</span> to:</p>
+      <ul class="space-y-1">
+        <li><strong>Bank:</strong> Habib Bank Limited (HBL)</li>
+        <li><strong>Account Title:</strong> KHIZAR HAYAT</li>
+        <li><strong>Account Number:</strong> 17907900779603</li>
+        <li><strong>IBAN:</strong> PK HABB 0017907900779603</li>
+      </ul>
+      <p class="text-gray-400 text-xs">
+        After transferring, upload the payment proof and transaction ID below.
+      </p>
+    </section>
+
+    <!-- Upload Form -->
+    <form id="paymentForm" class="hidden space-y-6 border-t border-yellow-600 pt-8" novalidate>
+      <input type="hidden" id="paymentMethod" name="method" value="bank">
+      <div>
+        <label for="transactionId" class="block text-sm font-medium mb-1">Transaction ID <span class="text-yellow-400">*</span></label>
+        <input id="transactionId" name="transactionId" type="text" required
+          class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400" placeholder="Enter your transaction ID">
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email Address <span class="text-yellow-400">*</span></label>
+        <input id="email" name="email" type="email" required
+          class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400" placeholder="you@example.com">
+      </div>
+
+      <div>
+        <label for="whatsapp" class="block text-sm font-medium mb-1">WhatsApp Number (Optional)</label>
+        <input id="whatsapp" name="whatsapp" type="tel"
+          class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400" placeholder="+92 300 1234567">
+      </div>
+
+      <div>
+        <label for="proof" class="block text-sm font-medium mb-1">Upload Payment Proof <span class="text-yellow-400">*</span></label>
+        <input id="proof" name="proof" type="file" required
+          class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg py-3 px-4 focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
+      </div>
+
+      <input type="hidden" name="price" value="10">
+      <input type="hidden" name="plan" value="default">
+
+      <button type="submit"
+        class="w-full bg-yellow-500 hover:bg-yellow-600 transition duration-300 text-gray-900 py-4 rounded-xl font-bold text-lg shadow-lg">
+        Submit Payment
+      </button>
+    </form>
+  </main>
+
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner">
+    <svg class="animate-spin h-12 w-12 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+    </svg>
+  </div>
+
+  <!-- Script Section -->
+  <script>
+    const planPrices = {
+      '1week': 5,
+      '1month': 9,
+      '2months': 16,
+      'permanent': 25
+    };
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const plan = getQueryParam('plan') || '1week';
+      const price = planPrices[plan] || 10;
+
+      document.querySelectorAll('.dynamic-price').forEach(el => el.textContent = `$${price}`);
+      document.querySelector('input[name="price"]').value = price;
+      document.querySelector('input[name="plan"]').value = plan;
+    });
+
+    const binanceBtn = document.getElementById('showBinanceBtn');
+    const bankBtn = document.getElementById('showBankFormBtn');
+    const form = document.getElementById('paymentForm');
+    const bankDetails = document.getElementById('bankDetailsSection');
+    const binanceSection = document.getElementById('binancePaySection');
+    const methodInput = document.getElementById('paymentMethod');
+    const spinner = document.getElementById('loadingSpinner');
+
+    binanceBtn.addEventListener('click', () => {
+      methodInput.value = 'binance';
+      binanceSection.classList.remove('hidden');
+      bankDetails.classList.add('hidden');
+      form.classList.remove('hidden');
+    });
+
+    bankBtn.addEventListener('click', () => {
+      methodInput.value = 'bank';
+      binanceSection.classList.add('hidden');
+      bankDetails.classList.remove('hidden');
+      form.classList.remove('hidden');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const transactionId = form.querySelector('input[name="transactionId"]').value.trim();
+      const email = form.querySelector('input[name="email"]').value.trim();
+      const proofFile = document.getElementById('proof').files[0];
+
+      if (!transactionId) return alert('Please enter your transaction ID.');
+      if (!email) return alert('Please enter your email address.');
+      if (!proofFile) return alert('Please upload your payment proof.');
+
+      spinner.style.display = 'flex';
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64File = reader.result.split(',')[1];
+
+        const payload = {
+          filename: proofFile.name,
+          fileBase64: base64File,
+          plan: form.querySelector('input[name="plan"]').value,
+          price: form.querySelector('input[name="price"]').value,
+          email,
+          whatsapp: form.querySelector('input[name="whatsapp"]').value.trim(),
+          method: methodInput.value,
+          transactionId
+        };
+
+        try {
+          const res = await fetch('/.netlify/functions/upload-payment-proof', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            window.location.href = 'success.html';
+          } else {
+            const errorText = await res.text();
+            alert('Upload failed: ' + errorText);
+          }
+        } catch (err) {
+          alert('Error uploading: ' + err.message);
+        } finally {
+          spinner.style.display = 'none';
+        }
+      };
+
+      reader.readAsDataURL(proofFile);
+    });
+  </script>
+</body>
+</html>

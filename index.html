@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eren Xiters - Choose Your Plan</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: radial-gradient(circle at center, #0f0f0f 30%, #000000 100%);
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-12px) scale(1.03);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 30px rgba(255, 255, 0, 0.4), 0 0 60px rgba(255, 255, 0, 0.2);
+    }
+
+    .shadow-glow {
+      box-shadow: 0 0 25px rgba(253, 224, 71, 0.25);
+    }
+
+    .glass-card {
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 0 0 8px #facc15, 0 0 20px #facc15;
+      }
+      50% {
+        text-shadow: 0 0 16px #facc15, 0 0 32px #facc15;
+      }
+    }
+
+    .glow-text {
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    .border-animate {
+      border-image: linear-gradient(45deg, #facc15, #f59e0b, #facc15) 1;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 1rem;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(#facc1555 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: moveParticles 30s linear infinite;
+    }
+
+    @keyframes moveParticles {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+  </style>
+</head>
+<body class="relative px-6 py-12">
+
+  <!-- Animated background -->
+  <div class="particles"></div>
+
+  <!-- Hero Header -->
+  <header class="relative text-center mb-20 z-10">
+    <h1 class="text-5xl font-extrabold text-yellow-400 mb-4 glow-text drop-shadow-lg">
+      ⚡ Eren Xiters Panel Plans
+    </h1>
+    <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+      Choose the power level that suits your mission. Tap in, dominate, repeat.
+    </p>
+  </header>
+
+  <!-- Plan Cards Grid -->
+  <section class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+    <!-- PLAN TEMPLATE -->
+    <div class="glass-card rounded-3xl p-6 shadow-glow card-hover flex flex-col border-animate">
+      <div class="text-center text-yellow-400 text-xl font-bold glow-text mb-4">🔥 1 Week Access</div>
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">7 Days Power</h2>
+      <p class="text-gray-300 text-sm flex-grow text-center">
+        Fast start. Perfect for short missions, testing, or short bursts of power.
+      </p>
+      <a href="checkout.html?plan=1week" class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-xl text-center shadow-lg">
+        Buy for $5
+      </a>
+    </div>
+
+    <div class="glass-card rounded-3xl p-6 shadow-glow card-hover flex flex-col border-animate">
+      <div class="text-center text-yellow-400 text-xl font-bold glow-text mb-4">⚡ 1 Month Access</div>
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">30 Days Control</h2>
+      <p class="text-gray-300 text-sm flex-grow text-center">
+        Full month of unlimited domination. Boost your workflow to the max.
+      </p>
+      <a href="checkout.html?plan=1month" class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-xl text-center shadow-lg">
+        Buy for $9
+      </a>
+    </div>
+
+    <div class="glass-card rounded-3xl p-6 shadow-glow card-hover flex flex-col border-animate">
+      <div class="text-center text-yellow-400 text-xl font-bold glow-text mb-4">🚀 2 Month Access</div>
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">60 Days Mastery</h2>
+      <p class="text-gray-300 text-sm flex-grow text-center">
+        2X the power, 2X the domination. No limits for 60 days.
+      </p>
+      <a href="checkout.html?plan=2months" class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-xl text-center shadow-lg">
+        Buy for $16
+      </a>
+    </div>
+
+    <div class="glass-card rounded-3xl p-6 shadow-glow card-hover flex flex-col border-animate">
+      <div class="text-center text-yellow-400 text-xl font-bold glow-text mb-4">💎 Permanent Access</div>
+      <h2 class="text-2xl font-bold text-yellow-300 mb-2 text-center">Lifetime Domination</h2>
+      <p class="text-gray-300 text-sm flex-grow text-center">
+        Buy once. Rule forever. One-time payment for infinite power.
+      </p>
+      <a href="checkout.html?plan=permanent" class="mt-6 inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-xl text-center shadow-lg">
+        Buy for $25
+      </a>
+    </div>
+
+  </section>
+</body>
+</html>
